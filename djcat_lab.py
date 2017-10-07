@@ -1,3 +1,15 @@
+import datajoint as dj
+
+schema = dj.schema(dj.config['names.%s' % __name__], locals())
+
+@schema
+class Lab(dj.Manual): 
+    definition = """ # Lab
+    lab : varchar(255)  #  lab conducting the study
+    ----
+    instition  : varchar(255)  # Institution to which the lab belongs
+    """
+
 @schema
 class Keyword(dj.Lookup):
     definition = """
@@ -13,8 +25,7 @@ class Study(dj.Manual):
     study : varchar(8)    # short name of the study
     --- 
     study_description : varchar(255)   #  
-    institution : varchar(255)  # institution conducting the study
-    lab : varchar(255)  #  lab conducting the study
+    -> Lab
     reference_atlas : varchar(255)   # e.g. "paxinos"
     """
     
