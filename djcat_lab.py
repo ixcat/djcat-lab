@@ -18,6 +18,7 @@ class Keyword(dj.Lookup):
     """
     contents = zip(['behavior', 'extracellular', 'photostim'])
 
+
 @schema
 class Study(dj.Manual):
     definition = """
@@ -55,6 +56,41 @@ class RelatedPublication(dj.Manual):
     -> Publication
     """
 
+
+
+@schema
+class AnimalSource(dj.Lookup):
+    definition = """
+    animal_source  : varchar(30) 
+    """
+    contents = zip(['JAX']) 
+
+
+@schema
+class Strain(dj.Lookup):
+    definition = """  # Mouse strain
+    strain  : varchar(30)  # mouse strain    
+    """
+    contents = zip(['kj18', 'kl100', 'ai32', 'pl56'])
+    
+
+@schema
+class GeneModification(dj.Lookup):
+    definition = """
+    gene_modification : varchar(60)
+    """
+    contents = zip(['sim1-cre', 'rbp4-cre', 'chr2-eyfp', 'tlx-cre'])
+    
+
+@schema
+class User(dj.Lookup):
+    definition = """
+    # User (lab member)
+    username  : varchar(16) #  database username
+    ----
+    full_name = ''  : varchar(60)
+    """
+
 @schema
 class Subject(dj.Manual):
     definition = """
@@ -63,5 +99,17 @@ class Subject(dj.Manual):
     species        : varchar(30)
     date_of_birth  : date   
     sex            : enum('M','F','Unknown')
-    animal_source  : varchar(30)
+    -> [nullable] AnimalSource
     """
+
+    class GeneModification(dj.Part):
+        definition = """  # Subject's gene modifications
+        -> Subject
+        -> GeneModification
+        """
+
+    class Strain(dj.Part):
+        definition = """
+        -> Subject
+        -> Strain
+        """
