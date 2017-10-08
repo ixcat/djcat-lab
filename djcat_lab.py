@@ -7,7 +7,7 @@ class Lab(dj.Manual):
     definition = """ # Lab
     lab : varchar(255)  #  lab conducting the study
     ----
-    instition  : varchar(255)  # Institution to which the lab belongs
+    institution  : varchar(255)  # Institution to which the lab belongs
     """
 
 @schema
